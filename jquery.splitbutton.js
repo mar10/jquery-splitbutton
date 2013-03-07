@@ -12,48 +12,66 @@
     $.widget("ui.splitbutton", {
         options: {
             menu: null,      // selector
-            mode: "split",   // 'split' | '' 
+            mode: "split",   // 'split' | 'list' 
             // Events:
+            blur: $.noop,    // dropdown-menu option lost focus
+//            blur: function(event, ui){
+//                alert("b" + event);
+//            },
             click: $.noop,   // default-button clicked
-            select: $.noop,  // dropdown-menu option selected
+            close: $.noop,   // dropdown-menu closed
             focus: $.noop,   // dropdown-menu option focused
-            init: $.noop,    // Control was initialized
+            init: $.noop,    // control was initialized
             open: $.noop,    // dropdown-menu opened
-            close: $.noop    // dropdown-menu closed
+            select: $.noop   // dropdown-menu option selected
         },
         _create: function () {
             var self = this;
             // `this.element` is the default-button
-            // Now append a dropdown-button and wrap both in a new div tag
-            // that will be converted into a buttonset
-            this.element.wrap($("<div>"));
-            
-            this.element.after($("<button>...</button>").button({
-                text: false, 
-                icons: {
-                    primary: "ui-icon-triangle-1-s"
-                }
-            }).click(function(event){
-                // Click hander for dropdown-button: open dropdown-menu
-                self._trigger("open", event);
-                $(self.options.menu)
-                    .css({
-                        position: "absolute",
-                        minWidth: self.element.width()
-                    })
-                    .slideDown("fast")
-                    .position({
-                        my: "left top", 
-                        at: "left bottom", 
-                        of: self.element, 
-                        collision: "fit"
-                    });
-            }));
-            // Convert both buttons into a buttonset
-            this.element.parent().buttonset();
+            if(this.options.mode === "list"){
+                this.element.button({
+                    test: false,
+                    icons: {
+                        secondary: "ui-icon-triangle-1-s"
+                    }
+                }).click($.proxy(this._openMenu, this));
+            }else{
+                // Append a dropdown-button and wrap both in a new div tag
+                // that will be converted into a buttonset
+                this.element.wrap($("<span>"));
+                
+                this.element.after(
+                    $("<button>...</button>").button({
+                        text: false, 
+                        icons: {
+                            primary: "ui-icon-triangle-1-s"
+                        }
+                    }).click($.proxy(this._openMenu, this))
+                );
+                // Convert both buttons into a buttonset
+                this.element.parent().buttonset();
+            }
             this.element.click(function(event){
                 self._trigger("click", event);
             });
+            // Create - but hide - dropdown-menu
+            $(this.options.menu)
+                .hide()
+                .addClass("ui-splitbutton-menu")
+                .menu({
+                    blur: function(event, ui){
+                        self._trigger("blur", event, ui);
+                    },
+                    focus: function(event, ui){
+                        self._trigger("focus", event, ui);
+                    },
+                    select: function(event, ui){
+//                        var menuId = ui.item.find(">a").attr("href");
+                        if( self._trigger("select", event, ui) !== false ){
+                            self._closeMenu();
+                        }
+                    }
+                });
             // Register global event handlers that close the dropdown-menu
             $(document).bind("keydown.splitbutton", function(event){
                 if( event.which === $.ui.keyCode.ESCAPE ){
@@ -65,22 +83,6 @@
                     self._closeMenu();
                 }
             });
-            
-            // Create - but hide - dropdown-menu
-            $(this.options.menu)
-                .hide()
-                .addClass("ui-splitbutton-menu")
-                .menu({
-                    focus: function(event, ui){
-                        self._trigger("focus", event, ui);
-                    },
-                    select: function(event, ui){
-//                        var menuId = ui.item.find(">a").attr("href");
-                        if( self._trigger("select", event, ui) !== false ){
-                            self._closeMenu();
-                        }
-                    }
-                });
             this._trigger("init");
         },
         /** Close dropdown. */
@@ -88,8 +90,26 @@
             $(this.options.menu).fadeOut();
             this._trigger("close");
         },
+        /** Open dropdown. */
+        _openMenu: function(event){
+            // Click hander for dropdown-button: open dropdown-menu
+            this._trigger("open", event);
+            $(this.options.menu)
+                .css({
+                    position: "absolute",
+                    minWidth: this.element.width()
+                })
+                .slideDown("fast")
+                // TDOD: position should be applied after animation finished
+                .position({
+                    my: "left top", 
+                    at: "left bottom", 
+                    of: this.element, 
+                    collision: "fit"
+                });
+        },
         /**
-         * Handle $().configurator("option", ...) calls. 
+         * Handle $().splitbutton("option", ...) calls. 
          */
         _setOption: function(key, value){
             $.Widget.prototype._setOption.apply(this, arguments);
