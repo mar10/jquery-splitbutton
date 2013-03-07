@@ -11,7 +11,7 @@ Pre-Alpha - not fit for production!
 Usage
 -----
 JavsScript:
-```
+```js
 $("button#split").splitbutton({
     menu: "#splitOptions",
     click: function(event){
@@ -25,7 +25,7 @@ $("button#split").splitbutton({
 ```
 
 Markup:
-```
+```html
 <button id="split">Default action</button>
 
 <ul id="splitOptions">
