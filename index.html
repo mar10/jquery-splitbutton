@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="jquery-splitbutton : Combine two ui-buttons and one ui-menu." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>jquery-splitbutton</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/mar10/jquery-splitbutton">View on GitHub</a>
+
+          <h1 id="project_title">jquery-splitbutton</h1>
+          <h2 id="project_tagline">Combine two ui-buttons and one ui-menu.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/mar10/jquery-splitbutton/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/mar10/jquery-splitbutton/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>Status</h2>
+
+<p>Pre-Alpha - not fit for production!</p>
+
+<p>Maintained by <a href="https://github.com/TheWild" class="user-mention">@TheWild</a>, <a href="https://github.com/mar10" class="user-mention">@mar10</a></p>
+
+<p>MIT Licensed.</p>
+
+<h2>Usage</h2>
+
+<p>JavsScript:</p>
+
+<div class="highlight"><pre><span class="nx">$</span><span class="p">(</span><span class="s2">"button#split"</span><span class="p">).</span><span class="nx">splitbutton</span><span class="p">({</span>
+    <span class="nx">menu</span><span class="o">:</span> <span class="s2">"#splitOptions"</span><span class="p">,</span>
+    <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s2">"clicked default button"</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">select</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">ui</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">menuId</span> <span class="o">=</span> <span class="nx">ui</span><span class="p">.</span><span class="nx">item</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s2">"&gt;a"</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">"href"</span><span class="p">);</span>
+        <span class="nx">alert</span><span class="p">(</span><span class="s2">"select "</span> <span class="o">+</span> <span class="nx">menuId</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>Markup:</p>
+
+<div class="highlight"><pre><span class="nt">&lt;button</span> <span class="na">id=</span><span class="s">"split"</span><span class="nt">&gt;</span>Default action<span class="nt">&lt;/button&gt;</span>
+
+<span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">"splitOptions"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#action1"</span><span class="nt">&gt;</span>Action 1<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#action2"</span><span class="nt">&gt;</span>Action 2<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#action3"</span><span class="nt">&gt;</span>Action 3<span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#action4"</span><span class="nt">&gt;</span>Action 4<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">jquery-splitbutton maintained by <a href="https://github.com/mar10">mar10</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
