@@ -100,14 +100,28 @@
         },
         /** Close dropdown. */
         _closeMenu: function(){
-            $(this.options.menu).fadeOut();
+            $(this.options.menu).fadeOut(function() {
+            	// Resetting position
+            	$(this).css({
+            		top: 0,
+            		left: 0
+                });
+            });
+            
             this._trigger("close");
             this._getMenuWidget().controller = null;
         },
         /** Open dropdown. */
         _openMenu: function(event){
-            // Attach splitbutton widget to the menu widget.
+        	// If menu is visible, we don't need to open it again
+        	if ($(this.options.menu).is(":visible")) {
+        		// TODO: Doesn't work quite right for multiple splitbuttons
+        		return;
+        	}
+        	
+        	// Attach splitbutton widget to the menu widget.
             this._getMenuWidget().controller = this;
+            
             // Click handler for dropdown-button: open dropdown-menu
             this._trigger("open", event);
             
@@ -116,14 +130,13 @@
                     position: "absolute",
                     minWidth: this.element.width()
                 })
-                .slideDown("fast")
-                // TDOD: position should be applied after animation finished
                 .position({
                     my: "left top", 
                     at: "left bottom", 
                     of: this.element, 
                     collision: "fit"
-                });
+                })
+                .slideDown("fast");
         },
         /**
          * Handle $().splitbutton("option", ...) calls. 
