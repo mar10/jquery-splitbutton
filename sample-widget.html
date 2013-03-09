@@ -25,12 +25,12 @@ $(function(){
 	        alert("clicked default button");
 	    },
         focus: function(event, ui){
-            alert("focus");
+//            alert("focus");
             var menuId = ui.item.find(">a").attr("href");
             $("#info").text("focus " + menuId);
         },
         blur: function(event, ui){
-            alert("blur");
+//            alert("blur");
             $("#info").text("");
         },
         select: function(event, ui){

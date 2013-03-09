@@ -9,6 +9,11 @@
  */
 
 (function ($) {
+    function getMenuFromEvent(event){
+        var menu = $(event.target).closest(":ui-menu"),
+            $menu = $(menu);
+        return $menu.data("ui-menu") || $menu.data("menu");
+    }
     $.widget("ui.splitbutton", {
         options: {
             menu: null,      // selector
@@ -30,7 +35,6 @@
             // `this.element` is the default-button
             if(this.options.mode === "list"){
                 this.element.button({
-                    text: false,
                     icons: {
                         secondary: "ui-icon-triangle-1-s"
                     }
@@ -58,17 +62,21 @@
             $(this.options.menu)
                 .hide()
                 .addClass("ui-splitbutton-menu")
+                // Create a menu instance
+                // Note: the menu may be re-used by other splitbutton instances,
+                // so we attach the splitbutton widget in _openMenu()
                 .menu({
                     blur: function(event, ui){
-                        self._trigger("blur", event, ui);
+                        getMenuFromEvent(event).controller._trigger("blur", event, ui);
                     },
                     focus: function(event, ui){
-                        self._trigger("focus", event, ui);
+                        getMenuFromEvent(event).controller._trigger("focus", event, ui);
                     },
                     select: function(event, ui){
 //                        var menuId = ui.item.find(">a").attr("href");
-                        if( self._trigger("select", event, ui) !== false ){
-                            self._closeMenu();
+                        var widget = getMenuFromEvent(event).controller;
+                        if( widget._trigger("select", event, ui) !== false ){
+                            widget._closeMenu.call(widget);
                         }
                     }
                 });
@@ -85,15 +93,24 @@
             });
             this._trigger("init");
         },
+        /** Return menu widget instance (works on pre and post jQueryUI 1.9). */
+        _getMenuWidget: function(){
+            var $menu = $(this.options.menu);
+            return $menu.data("ui-menu") || $menu.data("menu");
+        },
         /** Close dropdown. */
         _closeMenu: function(){
             $(this.options.menu).fadeOut();
             this._trigger("close");
+            this._getMenuWidget().controller = null;
         },
         /** Open dropdown. */
         _openMenu: function(event){
-            // Click hander for dropdown-button: open dropdown-menu
+            // Attach splitbutton widget to the menu widget.
+            this._getMenuWidget().controller = this;
+            // Click handler for dropdown-button: open dropdown-menu
             this._trigger("open", event);
+            
             $(this.options.menu)
                 .css({
                     position: "absolute",
