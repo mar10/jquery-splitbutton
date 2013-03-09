@@ -30,7 +30,7 @@
             // `this.element` is the default-button
             if(this.options.mode === "list"){
                 this.element.button({
-                    test: false,
+                    text: false,
                     icons: {
                         secondary: "ui-icon-triangle-1-s"
                     }
