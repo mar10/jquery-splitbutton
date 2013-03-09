@@ -125,10 +125,14 @@
             // Click handler for dropdown-button: open dropdown-menu
             this._trigger("open", event);
             
+            // Calculate minWidth
+            var menuPadding = $(this.options.menu).outerWidth() - $(this.options.menu).width(),
+            	minWidth = this.element.outerWidth(true) - menuPadding;
+            
             $(this.options.menu)
                 .css({
                     position: "absolute",
-                    minWidth: this.element.width()
+                    minWidth: minWidth
                 })
                 .position({
                     my: "left top", 
