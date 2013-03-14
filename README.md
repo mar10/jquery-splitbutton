@@ -7,6 +7,9 @@ Status
 ------
 Pre-Alpha - not fit for production!
 
+Demo
+----
+[Sample page](http://mar10.github.com/jquery-splitbutton/sample-widget.html)
 
 Usage
 -----
