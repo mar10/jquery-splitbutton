@@ -20,9 +20,6 @@
             mode: "split",   // 'split' | 'list' 
             // Events:
             blur: $.noop,    // dropdown-menu option lost focus
-//            blur: function(event, ui){
-//                alert("b" + event);
-//            },
             click: $.noop,   // default-button clicked
             close: $.noop,   // dropdown-menu closed
             focus: $.noop,   // dropdown-menu option focused
@@ -75,6 +72,12 @@
                     select: function(event, ui){
 //                        var menuId = ui.item.find(">a").attr("href");
                         var widget = getMenuFromEvent(event).controller;
+                        
+                        // If we have a sub menu, we don't trigger select
+                        if($(ui.item[0].lastElementChild).is("ul.ui-menu")) {
+                        	return false;
+                        }
+                        
                         if( widget._trigger("select", event, ui) !== false ){
                             widget._closeMenu.call(widget);
                         }
