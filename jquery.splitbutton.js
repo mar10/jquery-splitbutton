@@ -64,7 +64,14 @@
                 // so we attach the splitbutton widget in _openMenu()
                 .menu({
                     blur: function(event, ui){
-                        getMenuFromEvent(event).controller._trigger("blur", event, ui);
+                    	// Get splitbutton widget
+                    	var widget = getMenuFromEvent(event).controller;
+                    	
+                    	if(widget !== null) {
+                    		widget._trigger("blur", event, ui);	
+                    	} else {
+                    		// Menu was closed and splitbutton widget detached
+                    	}
                     },
                     focus: function(event, ui){
                         getMenuFromEvent(event).controller._trigger("focus", event, ui);
@@ -111,7 +118,12 @@
                 });
             });
             
+            // Trigger blur before splitbutton widget gets detached 
+            this._trigger("blur");
+            
             this._trigger("close");
+
+            // Detach splitbutton widget from menu widget
             this._getMenuWidget().controller = null;
         },
         /** Open dropdown. */
