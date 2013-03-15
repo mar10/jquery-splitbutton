@@ -43,8 +43,10 @@
                 this.element.wrap($("<span>"));
                 
                 this.element.after(
+                    // Note: button must not be empty, otherwise it is too small
                     $("<button>...</button>").button({
                         text: false, 
+                        "class": "ui-splitbutton-trigger",
                         icons: {
                             primary: "ui-icon-triangle-1-s"
                         }
@@ -94,6 +96,7 @@
             // Register global event handlers that close the dropdown-menu
             $(document).bind("keydown.splitbutton", function(event){
                 if( event.which === $.ui.keyCode.ESCAPE ){
+                    self._getMenuWidget().controller.element.focus();
                     self._closeMenu();
                 }
             }).bind("mousedown.splitbutton", function(event){
@@ -170,7 +173,13 @@
                     of: this.element, 
                     collision: "fit"
                 })
-                .slideDown("fast");
+                .slideDown("fast", function(){
+                    // Set keyboard focus to first item
+                    var $menu = $(this),
+                        $first = $menu.find(".ui-menu-item:first");
+                    $menu.menu("focus", null, $first);
+                    $menu.focus();
+                });
         },
         /**
          * Handle $().splitbutton("option", ...) calls. 
