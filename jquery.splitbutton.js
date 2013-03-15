@@ -124,6 +124,13 @@
             
             this._trigger("close");
 
+            // TODO: setting ui-state-active doesn't work, because .button()
+            // plugin removes it on mouseout
+//            if(this.options.mode === "list"){
+//                this.element.removeClass("ui-state-active");
+//            }else{
+//                $(this.element).next().removeClass("ui-state-active");
+//            }
             // Detach splitbutton widget from menu widget
             this._getMenuWidget().controller = null;
         },
@@ -140,7 +147,14 @@
             }
             // Attach splitbutton widget to the menu widget.
             this._getMenuWidget().controller = this;
-            
+
+            // TODO: setting ui-state-active doesn't work, because .button()
+            // plugin removes it on mouseout
+//            if(this.options.mode === "list"){
+//                this.element.addClass("ui-state-active");
+//            }else{
+//                $(this.element).next().addClass("ui-state-active");
+//            }
             // Calculate minWidth
             var menuPadding = $(this.options.menu).outerWidth() - $(this.options.menu).width(),
             	minWidth = this.element.outerWidth(true) - menuPadding;
