@@ -9,6 +9,7 @@
  */
 
 (function ($) {
+    "use strict";
     function getMenuFromEvent(event){
         var menu = $(event.target).closest(":ui-menu"),
             $menu = $(menu);
