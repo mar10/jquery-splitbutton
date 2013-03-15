@@ -134,12 +134,12 @@
         		// TODO: Doesn't work quite right for multiple splitbuttons
         		return;
         	}
-        	
-        	// Attach splitbutton widget to the menu widget.
-            this._getMenuWidget().controller = this;
-            
             // Click handler for dropdown-button: open dropdown-menu
-            this._trigger("open", event);
+            if( this._trigger("open", event) === false) {
+                return;
+            }
+            // Attach splitbutton widget to the menu widget.
+            this._getMenuWidget().controller = this;
             
             // Calculate minWidth
             var menuPadding = $(this.options.menu).outerWidth() - $(this.options.menu).width(),
