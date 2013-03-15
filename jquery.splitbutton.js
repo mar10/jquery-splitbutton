@@ -9,6 +9,7 @@
  */
 
 (function ($) {
+    "use strict";
     function getMenuFromEvent(event){
         var menu = $(event.target).closest(":ui-menu"),
             $menu = $(menu);
@@ -64,7 +65,14 @@
                 // so we attach the splitbutton widget in _openMenu()
                 .menu({
                     blur: function(event, ui){
-                        getMenuFromEvent(event).controller._trigger("blur", event, ui);
+                        // Get splitbutton widget
+                    	var widget = getMenuFromEvent(event).controller;
+                    	
+                    	if(widget !== null) {
+                    		widget._trigger("blur", event, ui);	
+                    	} else {
+                    		// Menu was closed and splitbutton widget detached
+                    	}
                     },
                     focus: function(event, ui){
                         getMenuFromEvent(event).controller._trigger("focus", event, ui);
@@ -72,6 +80,12 @@
                     select: function(event, ui){
 //                        var menuId = ui.item.find(">a").attr("href");
                         var widget = getMenuFromEvent(event).controller;
+                        
+                        // If we have a sub menu, we don't trigger select
+                        if($(ui.item[0].lastElementChild).is("ul.ui-menu")) {
+                        	return false;
+                        }
+                        
                         if( widget._trigger("select", event, ui) !== false ){
                             widget._closeMenu.call(widget);
                         }
@@ -105,7 +119,12 @@
                 });
             });
             
+            // Trigger blur before splitbutton widget gets detached 
+            this._trigger("blur");
+            
             this._trigger("close");
+
+            // Detach splitbutton widget from menu widget
             this._getMenuWidget().controller = null;
         },
         /** Open dropdown. */
