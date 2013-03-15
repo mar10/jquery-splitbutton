@@ -1,18 +1,16 @@
-jquery-splitbutton
-==================
+# jquery-splitbutton
 
 Combine two ui-buttons and one ui-menu.
 
-Status
-------
+## Status
 Pre-Alpha - not fit for production!
 
-Demo
-----
+## Demo
 [Sample page](http://mar10.github.com/jquery-splitbutton/sample-widget.html)
 
-Usage
------
+
+## Usage
+
 JavsScript:
 ```js
 $("button#split").splitbutton({
