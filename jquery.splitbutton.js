@@ -30,7 +30,7 @@
         },
         _create: function () {
             var self = this,
-            	$menu = this._getMenu();
+                $menu = this._getMenu();
             // `this.element` is the default-button
             if(this.options.mode === "list"){
                 this.element.button({
@@ -68,14 +68,14 @@
                 // so we attach the splitbutton widget in _openMenu()
                 .menu({
                     blur: function(event, ui){
-                    	// Get splitbutton widget
-                    	var widget = getMenuFromEvent(event).controller;
-                    	
-                    	if(widget !== null) {
-                    		widget._trigger("blur", event, ui);	
-                    	} else {
-                    		// Menu was closed and splitbutton widget detached
-                    	}
+                        // Get splitbutton widget
+                        var widget = getMenuFromEvent(event).controller;
+
+                        if(widget !== null) {
+                            widget._trigger("blur", event, ui);
+                        } else {
+                        // Menu was closed and splitbutton widget detached
+                        }
                     },
                     focus: function(event, ui){
                         getMenuFromEvent(event).controller._trigger("focus", event, ui);
@@ -86,7 +86,7 @@
                         
                         // If we have a sub menu, we don't trigger select
                         if($(ui.item[0].lastElementChild).is("ul.ui-menu")) {
-                        	return false;
+                            return false;
                         }
                         
                         if( widget._trigger("select", event, ui) !== false ){
@@ -112,10 +112,10 @@
         _getMenu: function(){
             var $menu = this.options.menu || this.element.data("menu");
             if($.isFunction($menu)){
-            	$menu = $menu();
+                $menu = $menu();
             }
             if(typeof $menu === "string"){
-            	$menu = $($menu);
+                $menu = $($menu);
             }
             return $menu;
         },
@@ -127,10 +127,10 @@
         /** Close dropdown. */
         _closeMenu: function(){
             this._getMenu().fadeOut(function() {
-            	// Resetting position
-            	$(this).css({
-            		top: 0,
-            		left: 0
+                // Resetting position
+                $(this).css({
+                    top: 0,
+                    left: 0
                 });
             });
             
@@ -151,12 +151,12 @@
         },
         /** Open dropdown. */
         _openMenu: function(event){
-        	var $menu = this._getMenu();
-        	// If menu is visible, we don't need to open it again
-        	if( $menu.is(":visible") ) {
-        		// TODO: Doesn't work quite right for multiple splitbuttons
-        		return;
-        	}
+            var $menu = this._getMenu();
+            // If menu is visible, we don't need to open it again
+            if( $menu.is(":visible") ) {
+                // TODO: Doesn't work quite right for multiple splitbuttons
+                return;
+            }
             // Click handler for dropdown-button: open dropdown-menu
             if( this._trigger("open", event) === false) {
                 return;
@@ -173,7 +173,7 @@
 //            }
             // Calculate minWidth
             var menuPadding = $menu.outerWidth() - $menu.width(),
-            	minWidth = this.element.outerWidth(true) - menuPadding;
+                minWidth = this.element.outerWidth(true) - menuPadding;
             
             $menu
                 .css({

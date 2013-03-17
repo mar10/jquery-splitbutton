@@ -39,6 +39,13 @@ $(function(){
         }
 	});
 
+    $("button#split2").splitbutton({
+        select: function(event, ui){
+            var menuId = ui.item.find(">a").attr("href");
+            alert("select " + menuId);
+        }
+    });
+
     $("button#list").splitbutton({
         menu: "#splitOptions",
         mode: "list",
@@ -57,9 +64,15 @@ $(function(){
 
     Splitbutton (mode = "split"):
     <button id="split">Default action</button>
+
+    Splitbutton (mode = "split"):
+    <button id="split2" data-menu="#splitOptions2"><span class="ui-icon ui-icon-heart"></span></button>
+
     Dropdown list (mode = "list"):
     <button id="list">Please select...</button>
     
+    <p id="info"></p>
+
     <ul id="splitOptions">
         <li><a href="#action1">Action 1</a>
         <li><a href="#action2">Action 2</a>
@@ -72,6 +85,10 @@ $(function(){
             </ul>
     </ul>
     
-    <p id="info"></p>
+    <ul id="splitOptions2">
+        <li><a href="#action1"><span class="ui-icon ui-icon-heart"></span></a>
+        <li><a href="#action2"><span class="ui-icon ui-icon-heart"></span></a>
+    </ul>
+    
 </body>
 </html>
