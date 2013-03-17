@@ -1,4 +1,4 @@
-# jquery-splitbutton
+# jquery-splitbutton [![Build Status](https://travis-ci.org/mar10/jquery-splitbutton.png?branch=master)](https://travis-ci.org/mar10/jquery-splitbutton)
 
 Combine two ui-buttons and one ui-menu.
 
