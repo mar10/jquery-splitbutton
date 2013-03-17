@@ -17,7 +17,7 @@
     }
     $.widget("ui.splitbutton", {
         options: {
-            menu: null,      // selector
+            menu: null,      // selector | jQuery | function | null
             mode: "split",   // 'split' | 'list' 
             // Events:
             blur: $.noop,    // dropdown-menu option lost focus
@@ -29,7 +29,8 @@
             select: $.noop   // dropdown-menu option selected
         },
         _create: function () {
-            var self = this;
+            var self = this,
+            	$menu = this._getMenu();
             // `this.element` is the default-button
             if(this.options.mode === "list"){
                 this.element.button({
@@ -59,7 +60,7 @@
                 self._trigger("click", event);
             });
             // Create - but hide - dropdown-menu
-            $(this.options.menu)
+            $menu
                 .hide()
                 .addClass("ui-splitbutton-menu")
                 // Create a menu instance
@@ -107,14 +108,25 @@
             });
             this._trigger("init");
         },
+        /** Return menu jQuery object. */
+        _getMenu: function(){
+            var $menu = this.options.menu || this.element.data("menu");
+            if($.isFunction($menu)){
+            	$menu = $menu();
+            }
+            if(typeof $menu === "string"){
+            	$menu = $($menu);
+            }
+            return $menu;
+        },
         /** Return menu widget instance (works on pre and post jQueryUI 1.9). */
         _getMenuWidget: function(){
-            var $menu = $(this.options.menu);
+            var $menu = this._getMenu();
             return $menu.data("ui-menu") || $menu.data("menu");
         },
         /** Close dropdown. */
         _closeMenu: function(){
-            $(this.options.menu).fadeOut(function() {
+            this._getMenu().fadeOut(function() {
             	// Resetting position
             	$(this).css({
             		top: 0,
@@ -139,8 +151,9 @@
         },
         /** Open dropdown. */
         _openMenu: function(event){
+        	var $menu = this._getMenu();
         	// If menu is visible, we don't need to open it again
-        	if ($(this.options.menu).is(":visible")) {
+        	if( $menu.is(":visible") ) {
         		// TODO: Doesn't work quite right for multiple splitbuttons
         		return;
         	}
@@ -159,10 +172,10 @@
 //                $(this.element).next().addClass("ui-state-active");
 //            }
             // Calculate minWidth
-            var menuPadding = $(this.options.menu).outerWidth() - $(this.options.menu).width(),
+            var menuPadding = $menu.outerWidth() - $menu.width(),
             	minWidth = this.element.outerWidth(true) - menuPadding;
             
-            $(this.options.menu)
+            $menu
                 .css({
                     position: "absolute",
                     minWidth: minWidth
@@ -175,8 +188,7 @@
                 })
                 .slideDown("fast", function(){
                     // Set keyboard focus to first item
-                    var $menu = $(this),
-                        $first = $menu.find(".ui-menu-item:first");
+                    var $first = $menu.find(".ui-menu-item:first");
                     $menu.menu("focus", null, $first);
                     $menu.focus();
                 });
