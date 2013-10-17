@@ -176,9 +176,12 @@
                 minWidth = this.element.outerWidth(true) - menuPadding;
             
             $menu
+                .show()
                 .css({
                     position: "absolute",
-                    minWidth: minWidth
+                    minWidth: minWidth,
+                    left: 0,
+                    top: 0
                 })
                 .position({
                     my: "left top", 
@@ -186,6 +189,7 @@
                     of: this.element, 
                     collision: "fit"
                 })
+                .hide()
                 .slideDown("fast", function(){
                     // Set keyboard focus to first item
                     var $first = $menu.find(".ui-menu-item:first");
